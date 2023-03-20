@@ -5,13 +5,16 @@
 
       Cloud Encryption
     </v-app-bar-title>
-    <v-btn variant="text" icon="mdi-magnify" 
-      @click="$router.push('/foo')"
-    >Foo</v-btn>
+    <v-btn variant="text"
+      @click="$router.push('/encrypt')"
+    >Encrypt</v-btn>
+    <v-btn variant="text" 
+      @click="$router.push('/encrypted-files')"
+    >Encrypted Files List</v-btn>
 
-    <v-btn variant="text" icon="mdi-filter"
-      @click="$router.push('/bar')"
-    >Bar</v-btn>
+    <v-btn variant="text"
+      @click="$router.push('/decrypt')"
+    >Decrypt</v-btn>
 
     <v-btn variant="text" icon="mdi-dots-vertical"></v-btn>
 

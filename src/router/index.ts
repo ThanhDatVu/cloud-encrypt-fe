@@ -17,27 +17,41 @@ const routes = [
     ],
   },
   {
-    path: '/foo',
-    name: 'foo',
+    path: '/encrypted-files',
+    name: 'encrypted-files',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
         path: '',
-        name: 'Foo',
-        component: () => import(/* webpackChunkName: "Foo" */ '@/views/Foo.vue'),
+        name: 'EncryptedFiles',
+        component: () => import(/* webpackChunkName: "EncryptedFiles" */ '@/views/EncryptedFiles.vue'),
       },
     ],
   },
   {
-    path: '/bar',
-    name: 'bar',
+    path: '/decrypt/:id',
+    name: 'decrypt',
     component: () => import('@/layouts/default/Default.vue'),
 
     children: [
       {
         path: '',
-        name: 'Bar',
-        component: () => import(/* webpackChunkName: "Bar" */ '@/views/Bar.vue'),
+        name: 'Decrypt',
+        component: () => import(/* webpackChunkName: "Decrypt" */ '@/views/Decrypt.vue'),
+      },
+    ],
+
+  },
+  {
+    path: '/encrypt',
+    name: 'encrypt',
+    component: () => import('@/layouts/default/Default.vue'),
+
+    children: [
+      {
+        path: '',
+        name: 'Encrypt',
+        component: () => import(/* webpackChunkName: "Encrypt" */ '@/views/Encrypt.vue'),
       },
     ],
 
