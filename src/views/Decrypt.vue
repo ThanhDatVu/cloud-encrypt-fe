@@ -1,5 +1,5 @@
 <template>
-  <div class="encrypted-files">
+  <div class="decrypt-file">
     <div class="home">
       <h1>
         Decrypt + Signature Verification (Giải mã hóa/ Xác thực chữ ký số)
