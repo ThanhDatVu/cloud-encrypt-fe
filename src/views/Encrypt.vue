@@ -285,7 +285,7 @@ const handleUploadAttachment = async (event) => {
     redirect: "follow",
   };
 
-  await fetch(`${BACKEND_API_URL}/v1/encrypts/blowfish`, encryptHeader)
+  await fetch(`${BACKEND_API_URL}/v1/encrypts/encrypt`, encryptHeader)
     .then((response) => response.json())
     .then((result) => {
       console.log("encryptedFile: ", result);

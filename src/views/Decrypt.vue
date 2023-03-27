@@ -33,7 +33,30 @@
             />
           </div>
         </v-expand-transition>
-
+        <v-card-actions>
+          <v-label> System Public Key (Khóa công khai của hệ thống) </v-label>
+          <v-spacer></v-spacer>
+          <v-btn
+            :icon="
+              showOption.systemPublicKeyContent
+                ? 'mdi-chevron-up'
+                : 'mdi-chevron-down'
+            "
+            @click="
+              showOption.systemPublicKeyContent =
+                !showOption.systemPublicKeyContent
+            "
+          ></v-btn>
+        </v-card-actions>
+        <v-expand-transition>
+          <div v-show="showOption.systemPublicKeyContent">
+            <v-divider></v-divider>
+            <Terminal
+              title="File's Public Key Content"
+              :content="decryptedFile.data.fileContents.systemPublicKeyContent"
+            />
+          </div>
+        </v-expand-transition>
         <v-card-actions>
           <v-label>
             File's Public Key (Khóa công khai của file đã được mã hóa)
@@ -273,7 +296,7 @@ const decryptFileById = async () => {
   };
 
   fetch(
-    `${BACKEND_API_URL}/v1/encrypts/decryptBlowfish?metadataId=${router.params.id}`,
+    `${BACKEND_API_URL}/v1/encrypts/decrypt?metadataId=${router.params.id}`,
     requestOptions
   )
     .then((response) => response.json())
