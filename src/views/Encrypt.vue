@@ -100,6 +100,33 @@
             />
           </div>
         </v-expand-transition>
+        <v-card-actions>
+          <v-label class="text-wrap">
+            Shared Secret (Khóa chia sẻ thu được từ giao thức ECDH với đầu vào là khóa công
+            khai của hệ thống và khóa bí mật của file)
+          </v-label>
+          <v-spacer></v-spacer>
+          <v-btn
+            :icon="
+              showOption.sharedSecretContent
+                ? 'mdi-chevron-up'
+                : 'mdi-chevron-down'
+            "
+            @click="
+              showOption.sharedSecretContent =
+                !showOption.sharedSecretContent
+            "
+          ></v-btn>
+        </v-card-actions>
+        <v-expand-transition>
+          <div v-show="showOption.sharedSecretContent">
+            <v-divider></v-divider>
+            <Terminal
+              title="Shared Secret"
+              :content="encryptedFile.data.fileContents.sharedSecretContent"
+            />
+          </div>
+        </v-expand-transition>
       </v-card>
       <v-card class="mx-auto" max-width="800">
         <v-card-title> Output (Đầu ra thuật toán) </v-card-title>
