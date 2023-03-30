@@ -28,7 +28,7 @@
           <div v-show="showOption.systemPrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Public Key Content"
+              title="System Private Key Content"
               :content="decryptedFile.data.fileContents.systemPrivateKeyContent"
             />
           </div>
@@ -59,26 +59,26 @@
         </v-expand-transition>
         <v-card-actions>
           <v-label>
-            File's Public Key (Khóa công khai của file đã được mã hóa)
+            Encrypted File's Private Key  (Khóa bí mật của tệp đã được mã hóa)
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
-              showOption.publicFileKeyContent
+              showOption.encryptedFilePrivateKeyContent
                 ? 'mdi-chevron-up'
                 : 'mdi-chevron-down'
             "
             @click="
-              showOption.publicFileKeyContent = !showOption.publicFileKeyContent
+              showOption.encryptedFilePrivateKeyContent = !showOption.encryptedFilePrivateKeyContent
             "
           ></v-btn>
         </v-card-actions>
         <v-expand-transition>
-          <div v-show="showOption.publicFileKeyContent">
+          <div v-show="showOption.encryptedFilePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Public Key Content"
-              :content="decryptedFile.data.fileContents.publicFileKeyContent"
+              title="Encrypted File's Private Key Content"
+              :content="decryptedFile.data.fileContents.encryptedFilePrivateKeyContent"
             />
           </div>
         </v-expand-transition>
@@ -92,13 +92,13 @@
           <v-spacer></v-spacer>
           <v-btn
             :icon="
-              showOption.signaturePath ? 'mdi-chevron-up' : 'mdi-chevron-down'
+              showOption.signatureContent ? 'mdi-chevron-up' : 'mdi-chevron-down'
             "
-            @click="showOption.signaturePath = !showOption.signaturePath"
+            @click="showOption.signatureContent = !showOption.signatureContent"
           ></v-btn>
         </v-card-actions>
         <v-expand-transition>
-          <div v-show="showOption.signaturePath">
+          <div v-show="showOption.signatureContent">
             <v-divider></v-divider>
             <Terminal
               title="Hash value signature Content"
@@ -142,21 +142,21 @@
           <v-spacer></v-spacer>
           <v-btn
             :icon="
-              showOption.sharedSecretContent
+              showOption.filePrivateKeyContent
                 ? 'mdi-chevron-up'
                 : 'mdi-chevron-down'
             "
             @click="
-              showOption.sharedSecretContent = !showOption.sharedSecretContent
+              showOption.filePrivateKeyContent = !showOption.filePrivateKeyContent
             "
           ></v-btn>
         </v-card-actions>
         <v-expand-transition>
-          <div v-show="showOption.sharedSecretContent">
+          <div v-show="showOption.filePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
               title="Shared Secret Content"
-              :content="decryptedFile.data.fileContents.sharedSecretContent"
+              :content="decryptedFile.data.fileContents.filePrivateKeyContent"
             />
           </div>
         </v-expand-transition>
@@ -181,7 +181,7 @@
           <div v-show="showOption.decryptedFilehash">
             <v-divider></v-divider>
             <Terminal
-              title="Shared Secret Content"
+              title="Decrypted File's Hash Content"
               :content="decryptedFile.data.hash.decryptedFilehash"
             />
           </div>
@@ -220,14 +220,20 @@
         </v-expand-transition>
         <v-card-actions>
           <v-label class="text-wrap">
-            Signature Verification Result (Kết quả xác thực chữ ký số của giá trị băm của file gốc)
+            Signature Verification Result (Kết quả xác thực chữ ký số của giá
+            trị băm của file gốc)
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
-              showOption.signatureVerification ? 'mdi-chevron-up' : 'mdi-chevron-down'
+              showOption.signatureVerification
+                ? 'mdi-chevron-up'
+                : 'mdi-chevron-down'
             "
-            @click="showOption.signatureVerification = !showOption.signatureVerification"
+            @click="
+              showOption.signatureVerification =
+                !showOption.signatureVerification
+            "
           ></v-btn>
         </v-card-actions>
         <v-expand-transition>
@@ -235,7 +241,11 @@
             <v-divider></v-divider>
             <Terminal
               title="Shared Secret Content"
-              :content="decryptedFile.data.verifyECDSA.isValid ? 'Verified  (Xác thực chữ ký số thành công)' : 'Not Verified (Xác thực chữ ký số không thành công)'"
+              :content="
+                decryptedFile.data.verifyRSA.isValid
+                  ? 'Verified  (Xác thực chữ ký số thành công)'
+                  : 'Not Verified (Xác thực chữ ký số không thành công)'
+              "
             />
           </div>
         </v-expand-transition>
@@ -260,8 +270,9 @@ const decryptedFile = reactive({
 });
 
 const showOption = reactive({
-  publicFileKeyContent: false,
-  sharedSecretContent: false,
+  encryptedFileContent: false,
+  encryptedFilePrivateKeyContent: false,
+  filePrivateKeyContent: false,
   signatureContent: false,
   systemPrivateKeyContent: false,
   systemPublicKeyContent: false,

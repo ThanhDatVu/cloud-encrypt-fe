@@ -14,7 +14,6 @@
     </div>
     <div v-if="encryptedFile.data" class="mt-2">
       <h1>Encryption/ Digital Sign Result (Kết quả mã hóa/ Ký số)</h1>
-      
       <v-card class="mx-auto" max-width="800">
         <v-card-title> Input (Đầu vào thuật toán) </v-card-title>
         <v-label> Input File (Tệp đầu vào) </v-label>
@@ -100,58 +99,53 @@
             />
           </div>
         </v-expand-transition>
-        <v-card-actions>
-          <v-label class="text-wrap">
-            Shared Secret (Khóa chia sẻ thu được từ giao thức ECDH với đầu vào là khóa công
-            khai của hệ thống và khóa bí mật của file)
-          </v-label>
-          <v-spacer></v-spacer>
-          <v-btn
-            :icon="
-              showOption.sharedSecretContent
-                ? 'mdi-chevron-up'
-                : 'mdi-chevron-down'
-            "
-            @click="
-              showOption.sharedSecretContent =
-                !showOption.sharedSecretContent
-            "
-          ></v-btn>
-        </v-card-actions>
-        <v-expand-transition>
-          <div v-show="showOption.sharedSecretContent">
-            <v-divider></v-divider>
-            <Terminal
-              title="Shared Secret"
-              :content="encryptedFile.data.fileContents.sharedSecretContent"
-            />
-          </div>
-        </v-expand-transition>
       </v-card>
       <v-card class="mx-auto" max-width="800">
         <v-card-title> Output (Đầu ra thuật toán) </v-card-title>
         <v-card-actions>
           <v-label>
-            File's Public Key (Khóa công khai của tệp cần mã hóa)
+            Encrypted File Content (Bản mã hóa của tệp)
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
-              showOption.filePublicKeyContent
+              showOption.encryptedFileContent
                 ? 'mdi-chevron-up'
                 : 'mdi-chevron-down'
             "
-            @click="
-              showOption.filePublicKeyContent = !showOption.filePublicKeyContent
-            "
+            @click="showOption.encryptedFileContent = !showOption.encryptedFileContent"
           ></v-btn>
         </v-card-actions>
         <v-expand-transition>
-          <div v-show="showOption.filePublicKeyContent">
+          <div v-show="showOption.encryptedFileContent">
             <v-divider></v-divider>
             <Terminal
               title="File's Public Key Content"
-              :content="encryptedFile.data.fileContents.filePublicKeyContent"
+              :content="encryptedFile.data.fileContents.encryptedFileContent"
+            />
+          </div>
+        </v-expand-transition>
+        <v-card-actions>
+          <v-label>
+            File's Encrypted Key (Khoá mã hóa của tệp đã được mã hóa bằng khóa
+            công khai của hệ thống)
+          </v-label>
+          <v-spacer></v-spacer>
+          <v-btn
+            :icon="
+              showOption.encryptedFilePrivateKeyContent
+                ? 'mdi-chevron-up'
+                : 'mdi-chevron-down'
+            "
+            @click="showOption.encryptedFilePrivateKeyContent = !showOption.encryptedFilePrivateKeyContent"
+          ></v-btn>
+        </v-card-actions>
+        <v-expand-transition>
+          <div v-show="showOption.encryptedFilePrivateKeyContent">
+            <v-divider></v-divider>
+            <Terminal
+              title="File's Public Key Content"
+              :content="encryptedFile.data.fileContents.encryptedFilePrivateKeyContent"
             />
           </div>
         </v-expand-transition>
@@ -203,7 +197,9 @@
             Go to page to decrypt this file (Đi đến trang giải mã tệp này)
           </v-btn>
         </router-link>
-        <v-card-subtitle>File ID: {{ encryptedFile.data.metadata.id }}</v-card-subtitle>
+        <v-card-subtitle
+          >File ID: {{ encryptedFile.data.metadata.id }}</v-card-subtitle
+        >
       </v-card>
     </div>
   </div>
@@ -230,12 +226,12 @@ const encryptedFile = reactive({
 });
 
 const showOption = reactive({
+  encryptedFileContent: false,
+  encryptedFilePrivateKeyContent: false,
+  filePrivateKeyContent: false,
+  signatureContent: false,
   systemPrivateKeyContent: false,
   systemPublicKeyContent: false,
-  filePublicKeyContent: false,
-  filePrivateKeyContent: false,
-  sharedSecretContent: false,
-  signatureContent: false,
   hashContent: false,
 });
 
