@@ -123,7 +123,7 @@
           <div v-show="showOption.originalHash">
             <v-divider></v-divider>
             <Terminal
-              title="Shared Secret Content"
+              title="Original File's Hash "
               :content="decryptedFile.data.hash.originalHash"
             />
           </div>
@@ -136,8 +136,7 @@
 
         <v-card-actions>
           <v-label class="text-wrap">
-            Shared Secret (Khóa chia sẻ thu được từ giao thức ECDH khóa công
-            khai của file và khóa bí của hệ thống)
+            File Private Key (Blowfish) (bản rõ của Khóa bí mật, đối xứng của tệp được mã hóa)
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -155,7 +154,7 @@
           <div v-show="showOption.filePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="Shared Secret Content"
+              title="File Private Key (Blowfish) "
               :content="decryptedFile.data.fileContents.filePrivateKeyContent"
             />
           </div>
@@ -213,7 +212,7 @@
           <div v-show="showOption.hashValidation">
             <v-divider></v-divider>
             <Terminal
-              title="Shared Secret Content"
+              title="Hash comparison result "
               :content="hashValidationContent"
             />
           </div>
@@ -240,7 +239,7 @@
           <div v-show="showOption.signatureVerification">
             <v-divider></v-divider>
             <Terminal
-              title="Shared Secret Content"
+              title="Signature Verification Result"
               :content="
                 decryptedFile.data.verifyRSA.isValid
                   ? 'Verified  (Xác thực chữ ký số thành công)'
