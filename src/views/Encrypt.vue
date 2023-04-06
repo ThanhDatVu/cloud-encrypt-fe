@@ -37,7 +37,7 @@
           <div v-show="showOption.systemPrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Public Key Content"
+              title=" System Private Key "
               :content="encryptedFile.data.fileContents.systemPrivateKeyContent"
             />
           </div>
@@ -62,7 +62,7 @@
           <div v-show="showOption.systemPublicKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Public Key Content"
+              title=" System Public Key "
               :content="encryptedFile.data.fileContents.systemPublicKeyContent"
             />
           </div>
@@ -94,7 +94,7 @@
           <div v-show="showOption.filePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Public Key Content"
+              title="File's Private Key "
               :content="encryptedFile.data.fileContents.filePrivateKeyContent"
             />
           </div>
@@ -120,7 +120,7 @@
           <div v-show="showOption.encryptedFileContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Public Key Content"
+              title="  Encrypted File Content"
               :content="encryptedFile.data.fileContents.encryptedFileContent"
             />
           </div>
@@ -144,7 +144,7 @@
           <div v-show="showOption.encryptedFilePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Public Key Content"
+              title="  File's Encrypted Key "
               :content="encryptedFile.data.fileContents.encryptedFilePrivateKeyContent"
             />
           </div>
@@ -164,7 +164,7 @@
           <div v-show="showOption.hashContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Public Key Content"
+              title="File's Hash Value "
               :content="encryptedFile.data.hash.originalHash"
             />
           </div>
@@ -187,7 +187,7 @@
           <div v-show="showOption.signatureContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Public Key Content"
+              title="Hash value signature "
               :content="encryptedFile.data.fileContents.signatureContent"
             />
           </div>
