@@ -9,7 +9,7 @@
               <v-card-text>
                 <v-row>
                   <v-col cols="4">
-                    <div>File Name: </div>
+                    <div>File Name (Tên tệp): </div>
                   </v-col>
                   <v-col cols="7">
                     <div>{{ encryptedFile.fileName }}</div>
@@ -17,7 +17,7 @@
                 </v-row>
                 <v-row>
                   <v-col cols="4">
-                    <div>Hash Value: </div>
+                    <div>Hash Value (Giá trị băm): </div>
                   </v-col>
                   <v-col cols="7">
                     <div>{{ encryptedFile.hashValue }}</div>
@@ -25,7 +25,7 @@
                 </v-row>
                 <v-row>
                   <v-col cols="4">
-                    <div>signaturePath: </div>
+                    <div>Signature Path (Đường dẫn đến chữ ký số giá trị băm): </div>
                   </v-col>
                   <v-col cols="7">
                     <div>{{ encryptedFile.signaturePath }}</div>
@@ -33,10 +33,10 @@
                 </v-row>
                 <v-row>
                   <v-col cols="4">
-                    <div>publicFileKeyPath: </div>
+                    <div>Encrypted File Key (Đường dẫn đến bản mã hóa của khóa mã hóa tệp) : </div>
                   </v-col>
                   <v-col cols="7">
-                    <div>{{ encryptedFile.publicFileKeyPath }}</div>
+                    <div>{{ encryptedFile.encryptedFileKey }}</div>
                   </v-col>
                 </v-row>
               </v-card-text>
