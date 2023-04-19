@@ -6,7 +6,7 @@
         enctype="multipart/formdata"
         @submit.prevent="handleUploadAttachment"
       >
-        <v-file-input ref="file" label="File input"
+        <v-file-input ref="file" label="File input" 
           >File to encrypt</v-file-input
         >
         <v-btn type="submit" block class="mt-2">Submit</v-btn>
@@ -250,6 +250,9 @@ const handleUploadAttachment = async (event) => {
   var formdata = new FormData();
   formdata.append("files", file.value.files[0]);
   console.log("formData", formdata);
+  if (!file.value.files[0]) {
+    return;
+  }
   var requestOptions = {
     method: "POST",
     body: formdata,
