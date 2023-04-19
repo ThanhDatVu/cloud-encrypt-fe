@@ -1,43 +1,46 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
 
+import Home from '@/views/Home.vue'
+import EncryptedFiles from '@/views/EncryptedFiles.vue'
+import Decrypt from '@/views/Decrypt.vue'
+import Encrypt from '@/views/Encrypt.vue'
+import Default from '@/layouts/default/Default.vue'
+
 const routes = [
   {
     path: '/',
-    component: () => import('@/layouts/default/Default.vue'),
+    component: Default,
     children: [
       {
         path: '',
         name: 'Home',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+        component: Home,
       },
     ],
   },
   {
     path: '/encrypted-files',
     name: 'encrypted-files',
-    component: () => import('@/layouts/default/Default.vue'),
+    component: Default,
     children: [
       {
         path: '',
         name: 'EncryptedFiles',
-        component: () => import(/* webpackChunkName: "EncryptedFiles" */ '@/views/EncryptedFiles.vue'),
+        component: EncryptedFiles,
       },
     ],
   },
   {
     path: '/decrypt/:id',
     name: 'decrypt',
-    component: () => import('@/layouts/default/Default.vue'),
+    component: Default,
 
     children: [
       {
         path: '',
         name: 'Decrypt',
-        component: () => import(/* webpackChunkName: "Decrypt" */ '@/views/Decrypt.vue'),
+        component: Decrypt,
       },
     ],
 
@@ -45,13 +48,13 @@ const routes = [
   {
     path: '/encrypt',
     name: 'encrypt',
-    component: () => import('@/layouts/default/Default.vue'),
+    component: Default,
 
     children: [
       {
         path: '',
         name: 'Encrypt',
-        component: () => import(/* webpackChunkName: "Encrypt" */ '@/views/Encrypt.vue'),
+        component: Encrypt,
       },
     ],
 
