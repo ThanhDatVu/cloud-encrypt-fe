@@ -16,54 +16,54 @@
       <h1>Encryption/ Digital Sign Result (Kết quả mã hóa/ Ký số)</h1>
       <v-card class="mx-auto" max-width="800">
         <v-card-title> Input (Đầu vào thuật toán) </v-card-title>
-        <v-label> Input File (Tệp đầu vào) </v-label>
+        <v-label> Input File (Tệp đầu vào - F) </v-label>
         <v-img :src="uploadedFilePath" height="100%" cover></v-img>
         <v-card-actions>
-          <v-label> System Private Key (Khóa bí mật của hệ thống) </v-label>
+          <v-label> Alice's Private Key (Khóa bí mật của Alice - Private<sub>A</sub> ) </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
-              showOption.systemPrivateKeyContent
+              showOption.alicePrivateKeyContent
                 ? 'mdi-chevron-up'
                 : 'mdi-chevron-down'
             "
             @click="
-              showOption.systemPrivateKeyContent =
-                !showOption.systemPrivateKeyContent
+              showOption.alicePrivateKeyContent =
+                !showOption.alicePrivateKeyContent
             "
           ></v-btn>
         </v-card-actions>
         <v-expand-transition>
-          <div v-show="showOption.systemPrivateKeyContent">
+          <div v-show="showOption.alicePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title=" System Private Key "
-              :content="encryptedFile.data.fileContents.systemPrivateKeyContent"
+              title=" Alice's Private Key "
+              :content="encryptedFile.data.fileContents.alicePrivateKeyContent"
             />
           </div>
         </v-expand-transition>
 
         <v-card-actions>
-          <v-label> System Public Key (Khóa công khai của hệ thống) </v-label>
+          <v-label> Bob's Public Key (Khóa công khai của Bob - Public<sub>B</sub>) </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
-              showOption.systemPublicKeyContent
+              showOption.bobPublicKeyContent
                 ? 'mdi-chevron-up'
                 : 'mdi-chevron-down'
             "
             @click="
-              showOption.systemPublicKeyContent =
-                !showOption.systemPublicKeyContent
+              showOption.bobPublicKeyContent =
+                !showOption.bobPublicKeyContent
             "
           ></v-btn>
         </v-card-actions>
         <v-expand-transition>
-          <div v-show="showOption.systemPublicKeyContent">
+          <div v-show="showOption.bobPublicKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title=" System Public Key "
-              :content="encryptedFile.data.fileContents.systemPublicKeyContent"
+              title=" Bob Public Key Content"
+              :content="encryptedFile.data.fileContents.bobPublicKeyContent"
             />
           </div>
         </v-expand-transition>
@@ -75,7 +75,7 @@
 
         <v-card-actions>
           <v-label>
-            File's Private Key (Khóa bí mật của tệp cần mã hóa)
+            File's Private Key (Khóa bí mật của tệp cần mã hóa - E<sub>bf</sub>)
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -104,7 +104,7 @@
         <v-card-title> Output (Đầu ra thuật toán) </v-card-title>
         <v-card-actions>
           <v-label>
-            Encrypted File Content (Bản mã hóa của tệp)
+            Encrypted File Content (Bản mã hóa của tệp - F<sub>encrypted</sub>)
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -126,9 +126,8 @@
           </div>
         </v-expand-transition>
         <v-card-actions>
-          <v-label>
-            File's Encrypted Key (Khoá mã hóa của tệp đã được mã hóa bằng khóa
-            công khai của hệ thống)
+          <v-label class="">
+            Khoá bí mật của tệp đã được mã hóa bằng khóa công khai của Bob (E<sub>bf</sub>) <sub>encrypted</sub>
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -151,7 +150,7 @@
         </v-expand-transition>
 
         <v-card-actions>
-          <v-label> File's Hash Value (Giá trị băm của tệp gốc) </v-label>
+          <v-label> File's Hash Value (Giá trị băm của tệp gốc - Hash<sub>F</sub>) </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
@@ -171,7 +170,7 @@
         </v-expand-transition>
         <v-card-actions>
           <v-label>
-            Hash value signature (Chữ ký số của chuỗi băm của file gốc)</v-label
+            Hash value signature (Chữ ký số của chuỗi băm của file gốc Sig(Hash<sub>F</sub>))</v-label
           >
           <v-spacer></v-spacer>
           <v-btn
@@ -230,8 +229,8 @@ const showOption = reactive({
   encryptedFilePrivateKeyContent: false,
   filePrivateKeyContent: false,
   signatureContent: false,
-  systemPrivateKeyContent: false,
-  systemPublicKeyContent: false,
+  alicePrivateKeyContent: false,
+  bobPublicKeyContent: false,
   hashContent: false,
 });
 
@@ -251,6 +250,7 @@ const handleUploadAttachment = async (event) => {
   formdata.append("files", file.value.files[0]);
   console.log("formData", formdata);
   if (!file.value.files[0]) {
+    alert("Vui lòng chọn tệp tin/Please select a file");
     return;
   }
   var requestOptions = {
@@ -294,4 +294,9 @@ const handleUploadAttachment = async (event) => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.encrypted-file-label {
+  flex-direction: column;
+  align-items: flex-start;
+}
+</style>

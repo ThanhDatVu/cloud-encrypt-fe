@@ -10,56 +10,56 @@
         <v-card-title> Input (Đầu vào thuật toán) </v-card-title>
 
         <v-card-actions>
-          <v-label> System Private Key (Khóa bí mật của hệ thống) </v-label>
+          <v-label> Bob's Private Key (Khóa bí mật của Bob - Private<sub>B</sub>) </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
-              showOption.systemPrivateKeyContent
+              showOption.bobPrivateKeyContent
                 ? 'mdi-chevron-up'
                 : 'mdi-chevron-down'
             "
             @click="
-              showOption.systemPrivateKeyContent =
-                !showOption.systemPrivateKeyContent
+              showOption.bobPrivateKeyContent =
+                !showOption.bobPrivateKeyContent
             "
           ></v-btn>
         </v-card-actions>
         <v-expand-transition>
-          <div v-show="showOption.systemPrivateKeyContent">
+          <div v-show="showOption.bobPrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="System Private Key Content"
-              :content="decryptedFile.data.fileContents.systemPrivateKeyContent"
+              title="Bob's Private Key Content"
+              :content="decryptedFile.data.fileContents.bobPrivateKeyContent"
             />
           </div>
         </v-expand-transition>
         <v-card-actions>
-          <v-label> System Public Key (Khóa công khai của hệ thống) </v-label>
+          <v-label> Alice Public Key (Khóa công khai của Alice - Public<sub>A</sub>) </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
-              showOption.systemPublicKeyContent
+              showOption.alicePublicKeyContent
                 ? 'mdi-chevron-up'
                 : 'mdi-chevron-down'
             "
             @click="
-              showOption.systemPublicKeyContent =
-                !showOption.systemPublicKeyContent
+              showOption.alicePublicKeyContent =
+                !showOption.alicePublicKeyContent
             "
           ></v-btn>
         </v-card-actions>
         <v-expand-transition>
-          <div v-show="showOption.systemPublicKeyContent">
+          <div v-show="showOption.alicePublicKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Public Key Content"
-              :content="decryptedFile.data.fileContents.systemPublicKeyContent"
+              title="Alice Public Key Content"
+              :content="decryptedFile.data.fileContents.alicePublicKeyContent"
             />
           </div>
         </v-expand-transition>
         <v-card-actions>
           <v-label>
-            Encrypted File's Private Key  (Khóa bí mật của tệp đã được mã hóa)
+            Encrypted File's Private Key  (Bản mã của khóa bí mật Blowfish của tệp (E<sub>bf</sub>) <sub>encrypted</sub>)
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -273,8 +273,8 @@ const showOption = reactive({
   encryptedFilePrivateKeyContent: false,
   filePrivateKeyContent: false,
   signatureContent: false,
-  systemPrivateKeyContent: false,
-  systemPublicKeyContent: false,
+  bobPrivateKeyContent: false,
+  alicePublicKeyContent: false,
   decryptedFilehash: false,
   originalHash: false,
   hashValidation: true,
