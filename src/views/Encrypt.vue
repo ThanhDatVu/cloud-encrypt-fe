@@ -13,13 +13,29 @@
       </v-form>
     </div>
     <div v-if="encryptedFile.data" class="mt-2">
-      <h1>Encryption/ Digital Sign Result (Kết quả mã hóa/ Ký số)</h1>
+      <h1>Kết quả mã hóa/ Ký số</h1>
       <v-card class="mx-auto" max-width="800">
-        <v-card-title> Input (Đầu vào thuật toán) </v-card-title>
-        <v-label> Input File (Tệp đầu vào - F) </v-label>
-        <v-img :src="uploadedFilePath" height="100%" cover></v-img>
+        <v-card-title> Input / Đầu vào thuật toán </v-card-title>
         <v-card-actions>
-          <v-label> Alice's Private Key (Khóa bí mật của Alice - Private<sub>A</sub> ) </v-label>
+          <v-label> Tệp đầu vào - F </v-label>
+          <v-spacer></v-spacer>
+          <v-btn
+            :icon="
+              showOption.originalFile ? 'mdi-chevron-up' : 'mdi-chevron-down'
+            "
+            @click="showOption.originalFile = !showOption.originalFile"
+          ></v-btn>
+        </v-card-actions>
+        <v-expand-transition>
+          <div v-show="showOption.originalFile">
+            <v-img :src="uploadedFilePath" height="100%" cover></v-img>
+            <v-btn class="ma-2" outlined :href="uploadedFilePath" download>
+              Download
+            </v-btn>
+          </div>
+        </v-expand-transition>
+        <v-card-actions>
+          <v-label> Khóa bí mật (RSA) của Alice - Private<sub>A</sub> </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
@@ -44,7 +60,7 @@
         </v-expand-transition>
 
         <v-card-actions>
-          <v-label> Bob's Public Key (Khóa công khai của Bob - Public<sub>B</sub>) </v-label>
+          <v-label> Khóa công khai (RSA) của Bob - Public<sub>B</sub></v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
@@ -70,12 +86,12 @@
       </v-card>
       <v-card class="mx-auto" max-width="800">
         <v-card-title>
-          Intermediate values (Các giá trị trung gian)
+          Các giá trị trung gian
         </v-card-title>
 
         <v-card-actions>
           <v-label>
-            File's Private Key (Khóa bí mật của tệp cần mã hóa - E<sub>bf</sub>)
+            Khóa bí mật (Blowfish) của tệp cần mã hóa - E<sub>bf</sub>
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -104,7 +120,7 @@
         <v-card-title> Output (Đầu ra thuật toán) </v-card-title>
         <v-card-actions>
           <v-label>
-            Encrypted File Content (Bản mã hóa của tệp - F<sub>encrypted</sub>)
+            Bản mã hóa của tệp gốc - F<sub>encrypted</sub>
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -127,7 +143,7 @@
         </v-expand-transition>
         <v-card-actions>
           <v-label class="">
-            Khoá bí mật của tệp đã được mã hóa bằng khóa công khai của Bob (E<sub>bf</sub>) <sub>encrypted</sub>
+            Khoá bí mật của tệp đã được mã hóa bằng khóa công khai của Bob - (E<sub>bf</sub>) <sub>encrypted</sub>
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -150,7 +166,7 @@
         </v-expand-transition>
 
         <v-card-actions>
-          <v-label> File's Hash Value (Giá trị băm của tệp gốc - Hash<sub>F</sub>) </v-label>
+          <v-label>Giá trị băm của tệp gốc - Hash<sub>F</sub> </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
@@ -170,8 +186,8 @@
         </v-expand-transition>
         <v-card-actions>
           <v-label>
-            Hash value signature (Chữ ký số của chuỗi băm của file gốc Sig(Hash<sub>F</sub>))</v-label
-          >
+            Chữ ký số của chuỗi băm của file gốc Sig(Hash<sub>F</sub>)
+          </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
@@ -232,6 +248,7 @@ const showOption = reactive({
   alicePrivateKeyContent: false,
   bobPublicKeyContent: false,
   hashContent: false,
+  originalFile: true,
 });
 
 const file = ref(null);

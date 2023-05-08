@@ -2,15 +2,42 @@
   <div class="decrypt-file">
     <div class="home">
       <h1>
-        Decrypt + Signature Verification (Giải mã hóa/ Xác thực chữ ký số)
+        Giải mã hóa/ Xác thực chữ ký số
       </h1>
     </div>
     <div v-if="decryptedFile.data">
       <v-card class="mx-auto" max-width="800">
-        <v-card-title> Input (Đầu vào thuật toán) </v-card-title>
+        <v-card-title> Input / Đầu vào thuật toán </v-card-title>
 
         <v-card-actions>
-          <v-label> Bob's Private Key (Khóa bí mật của Bob - Private<sub>B</sub>) </v-label>
+          <v-label>
+            Bản mã hóa của tệp gốc - F<sub>encrypted</sub>
+          </v-label>
+          <v-spacer></v-spacer>
+          <v-btn
+            :icon="
+              showOption.encryptedFileContent
+                ? 'mdi-chevron-up'
+                : 'mdi-chevron-down'
+            "
+            @click="
+              showOption.encryptedFileContent = !showOption.encryptedFileContent
+            "
+          ></v-btn>
+        </v-card-actions>
+        <v-expand-transition>
+          <div v-show="showOption.encryptedFileContent">
+            <v-divider></v-divider>
+            <Terminal
+              title="Bản mã hóa của tệp gốc"
+              :content="decryptedFile.data.fileContents.encryptedFileContent"
+            />
+          </div>
+        </v-expand-transition>
+        <v-card-actions>
+          <v-label>
+            Khóa bí mật của Bob - Private<sub>B</sub>
+          </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
@@ -19,8 +46,7 @@
                 : 'mdi-chevron-down'
             "
             @click="
-              showOption.bobPrivateKeyContent =
-                !showOption.bobPrivateKeyContent
+              showOption.bobPrivateKeyContent = !showOption.bobPrivateKeyContent
             "
           ></v-btn>
         </v-card-actions>
@@ -28,13 +54,15 @@
           <div v-show="showOption.bobPrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="Bob's Private Key Content"
+              title="Khóa bí mật của Bob"
               :content="decryptedFile.data.fileContents.bobPrivateKeyContent"
             />
           </div>
         </v-expand-transition>
         <v-card-actions>
-          <v-label> Alice Public Key (Khóa công khai của Alice - Public<sub>A</sub>) </v-label>
+          <v-label>
+            Khóa công khai của Alice - Public<sub>A</sub>
+          </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
@@ -52,14 +80,15 @@
           <div v-show="showOption.alicePublicKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="Alice Public Key Content"
+              title="Khóa công khai của Alice"
               :content="decryptedFile.data.fileContents.alicePublicKeyContent"
             />
           </div>
         </v-expand-transition>
         <v-card-actions>
           <v-label>
-            Encrypted File's Private Key  (Bản mã của khóa bí mật Blowfish của tệp (E<sub>bf</sub>) <sub>encrypted</sub>)
+            Bản mã của khóa bí mật (Blowfish) của
+            tệp (E<sub>bf</sub>) <sub>encrypted</sub>
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -69,7 +98,8 @@
                 : 'mdi-chevron-down'
             "
             @click="
-              showOption.encryptedFilePrivateKeyContent = !showOption.encryptedFilePrivateKeyContent
+              showOption.encryptedFilePrivateKeyContent =
+                !showOption.encryptedFilePrivateKeyContent
             "
           ></v-btn>
         </v-card-actions>
@@ -77,8 +107,10 @@
           <div v-show="showOption.encryptedFilePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="Encrypted File's Private Key Content"
-              :content="decryptedFile.data.fileContents.encryptedFilePrivateKeyContent"
+              title="Bản mã của khóa bí mật Blowfish của tệp "
+              :content="
+                decryptedFile.data.fileContents.encryptedFilePrivateKeyContent
+              "
             />
           </div>
         </v-expand-transition>
@@ -86,30 +118,8 @@
         <v-spacer></v-spacer>
 
         <v-card-actions>
-          <v-label>
-            Hash value signature (Chữ ký số của chuỗi băm của file gốc)
-          </v-label>
-          <v-spacer></v-spacer>
-          <v-btn
-            :icon="
-              showOption.signatureContent ? 'mdi-chevron-up' : 'mdi-chevron-down'
-            "
-            @click="showOption.signatureContent = !showOption.signatureContent"
-          ></v-btn>
-        </v-card-actions>
-        <v-expand-transition>
-          <div v-show="showOption.signatureContent">
-            <v-divider></v-divider>
-            <Terminal
-              title="Hash value signature Content"
-              :content="decryptedFile.data.fileContents.signatureContent"
-            />
-          </div>
-        </v-expand-transition>
-
-        <v-card-actions>
           <v-label class="text-wrap">
-            Original File's Hash (Giá trị băm của file gốc)
+            Giá trị băm của file gốc - Hash<sub>F</sub>
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -123,20 +133,44 @@
           <div v-show="showOption.originalHash">
             <v-divider></v-divider>
             <Terminal
-              title="Original File's Hash "
+              title="Giá trị băm của file gốc"
               :content="decryptedFile.data.hash.originalHash"
+            />
+          </div>
+        </v-expand-transition>
+        <v-card-actions>
+          <v-label>
+            Hash value signature (Chữ ký số của chuỗi băm của file gốc
+            Sig(Hash<sub>F</sub>))
+          </v-label>
+          <v-spacer></v-spacer>
+          <v-btn
+            :icon="
+              showOption.signatureContent
+                ? 'mdi-chevron-up'
+                : 'mdi-chevron-down'
+            "
+            @click="showOption.signatureContent = !showOption.signatureContent"
+          ></v-btn>
+        </v-card-actions>
+        <v-expand-transition>
+          <div v-show="showOption.signatureContent">
+            <v-divider></v-divider>
+            <Terminal
+              title="Hash value signature Content"
+              :content="decryptedFile.data.fileContents.signatureContent"
             />
           </div>
         </v-expand-transition>
       </v-card>
       <v-card class="mx-auto" max-width="800">
         <v-card-title>
-          Intermediate values (Các giá trị trung gian)
+          Các giá trị trung gian
         </v-card-title>
 
         <v-card-actions>
           <v-label class="text-wrap">
-            File Private Key (Blowfish) (bản rõ của Khóa bí mật, đối xứng của tệp được mã hóa)
+            Khóa bí mật (Blowfish) của tệp cần giải mã - E<sub>bf'</sub>
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -146,7 +180,8 @@
                 : 'mdi-chevron-down'
             "
             @click="
-              showOption.filePrivateKeyContent = !showOption.filePrivateKeyContent
+              showOption.filePrivateKeyContent =
+                !showOption.filePrivateKeyContent
             "
           ></v-btn>
         </v-card-actions>
@@ -154,7 +189,7 @@
           <div v-show="showOption.filePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="File Private Key (Blowfish) "
+              title="Khóa bí mật (Blowfish) của tệp cần giải mã  "
               :content="decryptedFile.data.fileContents.filePrivateKeyContent"
             />
           </div>
@@ -162,7 +197,8 @@
 
         <v-card-actions>
           <v-label class="text-wrap">
-            Decrypted File's Hash (Giá trị băm của file đã được giải mã)
+            Giá trị băm của tệp đã được giải mã -
+            Hash<sub>F</sub><sub>decrypted</sub>
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -180,25 +216,38 @@
           <div v-show="showOption.decryptedFilehash">
             <v-divider></v-divider>
             <Terminal
-              title="Decrypted File's Hash Content"
+              title="Giá trị băm của tệp đã được giải mã "
               :content="decryptedFile.data.hash.decryptedFilehash"
             />
           </div>
         </v-expand-transition>
       </v-card>
       <v-card class="mx-auto" max-width="800">
-        <v-card-title> Output (Đầu ra thuật toán) </v-card-title>
-        <v-card-actions class="decrypted-file-label">
-          <v-label> Decrypted File (File đã được giải mã): </v-label>
-          <v-card-subtitle>
-            {{ decryptedFile.data.decrypt.decryptedFilePath }}
-          </v-card-subtitle>
+        <v-card-title> Output / Đầu ra thuật toán </v-card-title>
+        <v-card-actions>
+          <v-label>
+            File đã được giải mã - F<sub>decrypted</sub>:
+          </v-label>
+          <v-spacer></v-spacer>
+          <v-btn
+            :icon="
+              showOption.decryptedFile ? 'mdi-chevron-up' : 'mdi-chevron-down'
+            "
+            @click="showOption.decryptedFile = !showOption.decryptedFile"
+          ></v-btn>
         </v-card-actions>
-        <v-img :src="decryptedFilePath" height="100%" cover></v-img>
+        <v-expand-transition>
+          <div v-show="showOption.decryptedFile">
+            <v-img :src="decryptedFilePath" height="100%" cover></v-img>
+            <v-btn class="ma-2" outlined :href="decryptedFilePath" download>
+              Download
+            </v-btn>
+          </div>
+        </v-expand-transition>
         <v-card-actions>
           <v-label class="text-wrap">
-            Hash comparison result (Kết quả so sánh giá trị băm của file gốc và
-            file đã được giải mã)
+            Kết quả so sánh giá trị băm của file gốc và
+            file đã được giải mã
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -212,15 +261,15 @@
           <div v-show="showOption.hashValidation">
             <v-divider></v-divider>
             <Terminal
-              title="Hash comparison result "
+              title="Kết quả so sánh giá trị băm của file gốc và file đã được giải mã "
               :content="hashValidationContent"
             />
           </div>
         </v-expand-transition>
         <v-card-actions>
           <v-label class="text-wrap">
-            Signature Verification Result (Kết quả xác thực chữ ký số của giá
-            trị băm của file gốc)
+            Kết quả xác thực chữ ký số của giá
+            trị băm của file gốc
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -239,7 +288,7 @@
           <div v-show="showOption.signatureVerification">
             <v-divider></v-divider>
             <Terminal
-              title="Signature Verification Result"
+              title="Kết quả xác thực chữ ký số của giá trị băm của file gốc"
               :content="
                 decryptedFile.data.verifyRSA.isValid
                   ? 'Verified  (Xác thực chữ ký số thành công)'
@@ -279,6 +328,8 @@ const showOption = reactive({
   originalHash: false,
   hashValidation: true,
   signatureVerification: true,
+  decryptedFile: true,
+  encryptedFileContent: false,
 });
 
 const decryptedFilePath = computed(() => {
@@ -289,13 +340,13 @@ const decryptedFilePath = computed(() => {
 
 const hashValidationContent = computed(() => {
   const content =
-    decryptedFile.data?.hash?.originalHash +
+    "Giá trị băm của tệp gốc: "+ decryptedFile.data?.hash?.originalHash +
     "<br/>" +
     (decryptedFile.data?.hash?.isHashEqual
-      ? "Equal (Bằng nhau/Toàn vẹn)"
-      : "Not Equal (Không bằng nhau/Không toàn vẹn)") +
+      ? "Bằng nhau/Toàn vẹn với"
+      : "Không bằng nhau/Không toàn vẹn") +
     "<br/>" +
-    decryptedFile.data?.hash?.decryptedFilehash;
+    "Giá trị băm của tệp mới giải mã: " + decryptedFile.data?.hash?.decryptedFilehash;
   return content;
 });
 
