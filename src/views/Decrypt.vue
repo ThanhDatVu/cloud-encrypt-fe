@@ -1,10 +1,10 @@
 <template>
   <div class="decrypt-file">
-    <div class="home">
+    <v-card class="mx-auto" max-width="800">
       <h1>
         Giải mã hóa/ Xác thực chữ ký số
       </h1>
-    </div>
+    </v-card>
     <div v-if="decryptedFile.data">
       <v-card class="mx-auto" max-width="800">
         <v-card-title> Input / Đầu vào thuật toán </v-card-title>
@@ -119,7 +119,7 @@
 
         <v-card-actions>
           <v-label class="text-wrap">
-            Giá trị băm của file gốc - Hash<sub>F</sub>
+            Giá trị băm của tệp gốc - Hash<sub>F</sub>
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -133,15 +133,15 @@
           <div v-show="showOption.originalHash">
             <v-divider></v-divider>
             <Terminal
-              title="Giá trị băm của file gốc"
+              title="Giá trị băm của tệp gốc"
               :content="decryptedFile.data.hash.originalHash"
             />
           </div>
         </v-expand-transition>
         <v-card-actions>
           <v-label>
-            Hash value signature (Chữ ký số của chuỗi băm của file gốc
-            Sig(Hash<sub>F</sub>))
+            Chữ ký số của chuỗi băm của file gốc
+            Sig(Hash<sub>F</sub>)
           </v-label>
           <v-spacer></v-spacer>
           <v-btn

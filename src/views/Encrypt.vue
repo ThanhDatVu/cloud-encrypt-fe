@@ -1,20 +1,21 @@
 <template>
   <div class="encrypt-file">
-    <div class="home">
+    <v-card class="mx-auto mt-3" max-width="800">
       <h1>Encryption/ Digital Sign (Mã hóa/Ký số)</h1>
+      <v-label class="ml-3"> Nhập tệp đầu vào - F </v-label>
       <v-form
         enctype="multipart/formdata"
         @submit.prevent="handleUploadAttachment"
       >
-        <v-file-input ref="file" label="File input" 
+        <v-file-input ref="file" label="File input"
           >File to encrypt</v-file-input
         >
         <v-btn type="submit" block class="mt-2">Submit</v-btn>
       </v-form>
-    </div>
+    </v-card>
     <div v-if="encryptedFile.data" class="mt-2">
-      <h1>Kết quả mã hóa/ Ký số</h1>
       <v-card class="mx-auto" max-width="800">
+      <h1>Kết quả mã hóa/ Ký số</h1>
         <v-card-title> Input / Đầu vào thuật toán </v-card-title>
         <v-card-actions>
           <v-label> Tệp đầu vào - F </v-label>
@@ -53,7 +54,7 @@
           <div v-show="showOption.alicePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title=" Alice's Private Key "
+              title="Khóa bí mật (RSA) của Alice "
               :content="encryptedFile.data.fileContents.alicePrivateKeyContent"
             />
           </div>
@@ -69,8 +70,7 @@
                 : 'mdi-chevron-down'
             "
             @click="
-              showOption.bobPublicKeyContent =
-                !showOption.bobPublicKeyContent
+              showOption.bobPublicKeyContent = !showOption.bobPublicKeyContent
             "
           ></v-btn>
         </v-card-actions>
@@ -78,16 +78,14 @@
           <div v-show="showOption.bobPublicKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title=" Bob Public Key Content"
+              title=" Khóa công khai (RSA) của Bob"
               :content="encryptedFile.data.fileContents.bobPublicKeyContent"
             />
           </div>
         </v-expand-transition>
       </v-card>
       <v-card class="mx-auto" max-width="800">
-        <v-card-title>
-          Các giá trị trung gian
-        </v-card-title>
+        <v-card-title> Các giá trị trung gian </v-card-title>
 
         <v-card-actions>
           <v-label>
@@ -110,7 +108,7 @@
           <div v-show="showOption.filePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Private Key "
+              title="Khóa bí mật (Blowfish) của tệp cần mã hóa"
               :content="encryptedFile.data.fileContents.filePrivateKeyContent"
             />
           </div>
@@ -119,9 +117,7 @@
       <v-card class="mx-auto" max-width="800">
         <v-card-title> Output (Đầu ra thuật toán) </v-card-title>
         <v-card-actions>
-          <v-label>
-            Bản mã hóa của tệp gốc - F<sub>encrypted</sub>
-          </v-label>
+          <v-label> Bản mã hóa của tệp gốc - F<sub>encrypted</sub> </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
@@ -129,21 +125,24 @@
                 ? 'mdi-chevron-up'
                 : 'mdi-chevron-down'
             "
-            @click="showOption.encryptedFileContent = !showOption.encryptedFileContent"
+            @click="
+              showOption.encryptedFileContent = !showOption.encryptedFileContent
+            "
           ></v-btn>
         </v-card-actions>
         <v-expand-transition>
           <div v-show="showOption.encryptedFileContent">
             <v-divider></v-divider>
             <Terminal
-              title="  Encrypted File Content"
+              title=" Bản mã hóa của tệp gốc"
               :content="encryptedFile.data.fileContents.encryptedFileContent"
             />
           </div>
         </v-expand-transition>
         <v-card-actions>
           <v-label class="">
-            Khoá bí mật của tệp đã được mã hóa bằng khóa công khai của Bob - (E<sub>bf</sub>) <sub>encrypted</sub>
+            Khoá bí mật (Blowfish) của tệp đã được mã hóa bằng khóa công khai của Bob -
+            (E<sub>bf</sub>) <sub>encrypted</sub>
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -152,15 +151,20 @@
                 ? 'mdi-chevron-up'
                 : 'mdi-chevron-down'
             "
-            @click="showOption.encryptedFilePrivateKeyContent = !showOption.encryptedFilePrivateKeyContent"
+            @click="
+              showOption.encryptedFilePrivateKeyContent =
+                !showOption.encryptedFilePrivateKeyContent
+            "
           ></v-btn>
         </v-card-actions>
         <v-expand-transition>
           <div v-show="showOption.encryptedFilePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="  File's Encrypted Key "
-              :content="encryptedFile.data.fileContents.encryptedFilePrivateKeyContent"
+              title=" Khoá bí mật (Blowfish) của tệp đã được mã hóa bằng khóa công khai của Bob"
+              :content="
+                encryptedFile.data.fileContents.encryptedFilePrivateKeyContent
+              "
             />
           </div>
         </v-expand-transition>
@@ -179,7 +183,7 @@
           <div v-show="showOption.hashContent">
             <v-divider></v-divider>
             <Terminal
-              title="File's Hash Value "
+              title="Giá trị băm của tệp gốc"
               :content="encryptedFile.data.hash.originalHash"
             />
           </div>
@@ -202,17 +206,17 @@
           <div v-show="showOption.signatureContent">
             <v-divider></v-divider>
             <Terminal
-              title="Hash value signature "
+              title="Chữ ký số của chuỗi băm của file gốc "
               :content="encryptedFile.data.fileContents.signatureContent"
             />
           </div>
         </v-expand-transition>
         <router-link :to="decryptedFileUrl">
           <v-btn color="primary" class="mx-auto" max-width="800">
-            Go to page to decrypt this file (Đi đến trang giải mã tệp này)
+            Đi đến trang giải mã tệp này
           </v-btn>
         </router-link>
-        <v-card-subtitle
+        <v-card-subtitle class="mt-2"
           >File ID: {{ encryptedFile.data.metadata.id }}</v-card-subtitle
         >
       </v-card>
@@ -284,7 +288,10 @@ const handleUploadAttachment = async (event) => {
       filename = result[0].filename;
       uploadFile.data = result[0];
     })
-    .catch((error) => console.log("error", error));
+    .catch((error) => {
+      console.log("error", error);
+      alert("Có lỗi xảy ra ở bước upload tệp tin");
+    });
 
   // 2. Encrypt file using file name from step 1.
   const myHeaders = new Headers();
@@ -307,7 +314,10 @@ const handleUploadAttachment = async (event) => {
       console.log("encryptedFile: ", result);
       encryptedFile.data = result;
     })
-    .catch((error) => console.log("error", error));
+    .catch((error) => {
+      console.log("error", error);
+      alert("Có lỗi xảy ra ở bước yêu cầu mã hóa tệp tin");
+    });
 };
 </script>
 
