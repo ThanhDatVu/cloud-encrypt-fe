@@ -36,7 +36,7 @@
         </v-expand-transition>
         <v-card-actions>
           <v-label>
-            Khóa bí mật của Bob - Private<sub>B</sub>
+            Khóa riêng của Bob - Private<sub>B</sub>
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -54,7 +54,7 @@
           <div v-show="showOption.bobPrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="Khóa bí mật của Bob"
+              title="Khóa riêng của Bob"
               :content="decryptedFile.data.fileContents.bobPrivateKeyContent"
             />
           </div>
@@ -116,7 +116,7 @@
         </v-expand-transition>
 
         <v-spacer></v-spacer>
-
+<!-- 
         <v-card-actions>
           <v-label class="text-wrap">
             Giá trị băm của tệp gốc - Hash<sub>F</sub>
@@ -137,7 +137,7 @@
               :content="decryptedFile.data.hash.originalHash"
             />
           </div>
-        </v-expand-transition>
+        </v-expand-transition> -->
         <v-card-actions>
           <v-label>
             Chữ ký số của chuỗi băm của file gốc
@@ -198,7 +198,7 @@
         <v-card-actions>
           <v-label class="text-wrap">
             Giá trị băm của tệp đã được giải mã -
-            Hash<sub>F</sub><sub>decrypted</sub>
+            Hash<sub>F</sub>'
           </v-label>
           <v-spacer></v-spacer>
           <v-btn
@@ -244,7 +244,7 @@
             </v-btn>
           </div>
         </v-expand-transition>
-        <v-card-actions>
+        <!-- <v-card-actions>
           <v-label class="text-wrap">
             Kết quả so sánh giá trị băm của file gốc và
             file đã được giải mã
@@ -265,7 +265,7 @@
               :content="hashValidationContent"
             />
           </div>
-        </v-expand-transition>
+        </v-expand-transition> -->
         <v-card-actions>
           <v-label class="text-wrap">
             Kết quả xác thực chữ ký số của giá
@@ -375,5 +375,9 @@ decryptFileById();
 .decrypted-file-label {
   flex-direction: column;
   align-items: flex-start;
+}
+
+.v-label {
+  opacity: 1;
 }
 </style>

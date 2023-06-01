@@ -36,7 +36,7 @@
           </div>
         </v-expand-transition>
         <v-card-actions>
-          <v-label> Khóa bí mật (RSA) của Alice - Private<sub>A</sub> </v-label>
+          <v-label> Khóa riêng (RSA) của Alice - Private<sub>A</sub> </v-label>
           <v-spacer></v-spacer>
           <v-btn
             :icon="
@@ -54,7 +54,7 @@
           <div v-show="showOption.alicePrivateKeyContent">
             <v-divider></v-divider>
             <Terminal
-              title="Khóa bí mật (RSA) của Alice "
+              title="Khóa riêng (RSA) của Alice "
               :content="encryptedFile.data.fileContents.alicePrivateKeyContent"
             />
           </div>
@@ -110,6 +110,25 @@
             <Terminal
               title="Khóa bí mật (Blowfish) của tệp cần mã hóa"
               :content="encryptedFile.data.fileContents.filePrivateKeyContent"
+            />
+          </div>
+        </v-expand-transition>
+        <v-card-actions>
+          <v-label>Giá trị băm của tệp gốc - Hash<sub>F</sub> </v-label>
+          <v-spacer></v-spacer>
+          <v-btn
+            :icon="
+              showOption.hashContent ? 'mdi-chevron-up' : 'mdi-chevron-down'
+            "
+            @click="showOption.hashContent = !showOption.hashContent"
+          ></v-btn>
+        </v-card-actions>
+        <v-expand-transition>
+          <div v-show="showOption.hashContent">
+            <v-divider></v-divider>
+            <Terminal
+              title="Giá trị băm của tệp gốc"
+              :content="encryptedFile.data.hash.originalHash"
             />
           </div>
         </v-expand-transition>
@@ -169,25 +188,7 @@
           </div>
         </v-expand-transition>
 
-        <v-card-actions>
-          <v-label>Giá trị băm của tệp gốc - Hash<sub>F</sub> </v-label>
-          <v-spacer></v-spacer>
-          <v-btn
-            :icon="
-              showOption.hashContent ? 'mdi-chevron-up' : 'mdi-chevron-down'
-            "
-            @click="showOption.hashContent = !showOption.hashContent"
-          ></v-btn>
-        </v-card-actions>
-        <v-expand-transition>
-          <div v-show="showOption.hashContent">
-            <v-divider></v-divider>
-            <Terminal
-              title="Giá trị băm của tệp gốc"
-              :content="encryptedFile.data.hash.originalHash"
-            />
-          </div>
-        </v-expand-transition>
+
         <v-card-actions>
           <v-label>
             Chữ ký số của chuỗi băm của file gốc Sig(Hash<sub>F</sub>)
@@ -325,5 +326,9 @@ const handleUploadAttachment = async (event) => {
 .encrypted-file-label {
   flex-direction: column;
   align-items: flex-start;
+}
+
+.v-label {
+  opacity: 1;
 }
 </style>
