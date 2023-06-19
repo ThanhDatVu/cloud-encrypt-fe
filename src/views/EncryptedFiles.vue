@@ -48,13 +48,25 @@
             </v-card>
           </v-col>
         </v-row>
+        <v-row justify="center">
+          <v-col cols="8" v-if="encryptedFiles.data">
+            <v-container class="max-width">
+              <v-pagination
+                v-model="pagination.page"
+                class="my-4"
+                :length="encryptedFiles.data.totalPages"
+                @input="updatePage"
+              ></v-pagination>
+            </v-container>
+          </v-col>
+        </v-row>
       </v-container>
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL
 // import { BACKEND_API_URL } from '../../config'
 // import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
@@ -65,14 +77,32 @@ const encryptedFiles = reactive({
   loading: false,
 })
 
+const pagination = reactive({
+  page: 1,
+  itemsPerPage: 10,
+  sortBy: 'createdAt',
+  sortDesc: true,
+  search: '',
+})
 
-const fetchAllEncryptedFiles = async () => {
+//write logic for pagination
+const updatePage =  async (pageIndex) => {
+  console.log("pageIndex", pageIndex);
+  fetchAllEncryptedFiles(pagination)
+}
+
+
+
+const fetchAllEncryptedFiles = async (pagination) => {
   var requestOptions = {
     method: 'GET',
     redirect: 'follow'
   };
+  console.log("pagination", pagination)
 
-  await fetch(`${BACKEND_API_URL}/v1/metadata?sortBy=-createdAt`, requestOptions)
+  const url = `${BACKEND_API_URL}/v1/metadata?page=${pagination?.page}&size=${pagination?.itemsPerPage}&sortBy=${pagination?.sortBy}&sortDesc=${pagination?.sortDesc}&search=${pagination?.search}`
+
+  await fetch(url , requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result)
@@ -85,7 +115,13 @@ const fetchAllEncryptedFiles = async () => {
 
 }
 
-fetchAllEncryptedFiles()
+fetchAllEncryptedFiles(pagination)
+
+watch(() => pagination.page, (newVal, oldVal) => {
+  console.log("newVal", newVal)
+  console.log("oldVal", oldVal)
+  updatePage(newVal)
+})
 
 </script>
 
