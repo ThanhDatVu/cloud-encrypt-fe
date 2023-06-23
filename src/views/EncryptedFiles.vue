@@ -17,14 +17,6 @@
                 </v-row>
                 <v-row>
                   <v-col cols="4">
-                    <div>Hash Value (Giá trị băm): </div>
-                  </v-col>
-                  <v-col cols="7">
-                    <div>{{ encryptedFile.hashValue }}</div>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="4">
                     <div>Signature Path (Đường dẫn đến chữ ký số giá trị băm): </div>
                   </v-col>
                   <v-col cols="7">
